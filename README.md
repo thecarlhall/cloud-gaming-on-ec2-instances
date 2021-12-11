@@ -2,6 +2,16 @@
 
 This repository contains the full source code that is used in the blog post [Use Amazon EC2 for cost-efficient cloud gaming with pay-as-you-go pricing](https://aws.amazon.com/blogs/compute/use-amazon-ec2-for-cost-efficient-cloud-gaming-with-pay-as-you-go-pricing/).
 
+## Modifications in Fork
+
+My changes help run in my setup and controlled with [`ec2gaming`](https://github.com/thecarlhall/ec2gaming).
+
+1. Make EIP configurable.
+2. Move region, account to env vars.
+3. Add Steam to download list.
+4. Allow default VPC to be used and default to it.
+5. Decrease root volume to 35GB.
+
 ## Solution Overview
 
 ![Diagram](img/architecture.png)
