@@ -11,10 +11,11 @@ export class G4DNStack extends BaseEc2Stack {
 
     constructor(scope: cdk.Construct, id: string, props: G4DNConfig) {
         super(scope, id, props);
+        this.props = props;
     }
 
     protected getInstanceType() {
-        return ec2.InstanceType.of(ec2.InstanceClass.G4DN, ec2.InstanceSize.XLARGE);
+        return ec2.InstanceType.of(ec2.InstanceClass.G4DN, this.props.instanceSize);
     }
 
     protected getUserdata() {
@@ -26,6 +27,7 @@ export class G4DNStack extends BaseEc2Stack {
             `$Bucket = "nvidia-gaming"`,
             `$KeyPrefix = "windows/latest"`,
             `$LocalTempPath = "$home\\Desktop\\temp"`,
+            `$StartupFolder = "$home\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"`,
             `$Objects = Get-S3Object -BucketName $Bucket -KeyPrefix $KeyPrefix -Region us-east-1`,
             `foreach ($Object in $Objects) {
                 $LocalFileName = $Object.Key
@@ -40,6 +42,17 @@ export class G4DNStack extends BaseEc2Stack {
             `'reg add "HKLM\\SOFTWARE\\NVIDIA Corporation\\Global" /v vGamingMarketplace /t REG_DWORD /d 2' >> $InstallationFilesFolder\\4_update_registry.ps1`,
             'Remove-Item $LocalTempPath -Recurse',
             `Invoke-WebRequest -Uri "${this.props.gridSwCertUrl}" -OutFile "$Env:PUBLIC\\Documents\\GridSwCert.txt"`,
+            `Invoke-WebRequest -Uri "${this.props.steamClientUrl}" -OutFile $InstallationFilesFolder\\5_SteamSetup.exe`,
+            `Invoke-WebRequest -Uri "https://lg.io/assets/NvFBCEnable.zip" -OutFile $InstallationFilesFolder\\6_NvFBCEnable.zip`,
+            '',
+            `'Initialize-Disk 1' >> $InstallationFilesFolder\\init-local-storage.ps1`,
+            `'New-Partition -DiskNumber 1 -DriveLetter Z -UseMaximumSize' >> $InstallationFilesFolder\\init-local-storage.ps1`,
+            `'Format-Volume -DriveLetter Z -FileSystem NTFS' >> $InstallationFilesFolder\\init-local-storage.ps1`,
+            `'md Z:\\SteamLibrary\\steamapps' >> $InstallationFilesFolder\\init-local-storage.ps1`,
+            '',
+            `'PowerShell -Command "Set-ExecutionPolicy Unrestricted" >> "%TEMP%\\StartupLog.txt" 2>&1' >> C:\\Users\\Administrator\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\InitLocalStorage.cmd`,
+            `'PowerShell -windowstyle hidden $InstallationFilesFolder\\init-local-storage.ps1 >> "%TEMP%\\StartupLog.txt" 2>&1' >> C:\\Users\\Administrator\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\InitLocalStorage.cmd`,
+            '',
             `'' >> $InstallationFilesFolder\\OK`
         );
 

@@ -10,9 +10,11 @@ export interface BaseConfig extends cdk.StackProps {
     volumeSizeGiB: number;
     niceDCVDisplayDriverUrl: string;
     niceDCVServerUrl: string;
+    steamClientUrl: string;
     openPorts: number[];
     allowInboundCidr: string;
     associateElasticIp: boolean;
+    useDefaultVpc?: boolean;
 }
 
 export abstract class BaseEc2Stack extends cdk.Stack {
@@ -21,17 +23,23 @@ export abstract class BaseEc2Stack extends cdk.Stack {
     constructor(scope: cdk.Construct, id: string, props: BaseConfig) {
         super(scope, id, props);
         this.props = props;
-        const vpc = new ec2.Vpc(this, "CloudGamingVPC", {
-            cidr: `10.0.0.0/16`,
-            maxAzs: 1,
-            subnetConfiguration: [
-                {
-                    cidrMask: 28,
-                    name: `Public`,
-                    subnetType: ec2.SubnetType.PUBLIC
-                }
-            ]
-        });
+
+        const vpc = props.useDefaultVpc ?
+            ec2.Vpc.fromLookup(this, "CloudGamingVPC", {
+                isDefault: true,
+            })
+            :
+            new ec2.Vpc(this, "CloudGamingVPC", {
+                cidr: `10.0.0.0/24`,
+                maxAzs: 99,
+                subnetConfiguration: [
+                    {
+                        cidrMask: 28,
+                        name: `Public`,
+                        subnetType: ec2.SubnetType.PUBLIC
+                    }
+                ]
+            });
 
         const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
             vpc,
