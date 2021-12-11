@@ -8,9 +8,9 @@ export interface BaseConfig extends cdk.StackProps {
     instanceSize: InstanceSize;
     sshKeyName: string;
     volumeSizeGiB: number;
-    niceDCVDisplayDriverUrl: string;
-    niceDCVServerUrl: string;
-    steamClientUrl: string;
+    steamUrl: string;
+    parsecUrl: string;
+    nvfbcUrl: string;
     openPorts: number[];
     allowInboundCidr: string;
     associateElasticIp: boolean;
@@ -43,8 +43,8 @@ export abstract class BaseEc2Stack extends cdk.Stack {
 
         const securityGroup = new ec2.SecurityGroup(this, 'SecurityGroup', {
             vpc,
-            description: 'Allow RDP and NICE DCV access',
-            securityGroupName: 'InboundAccessFromRdpDcv'
+            description: 'Allow RDP access',
+            securityGroupName: 'InboundAccessFromRdp'
         });
 
         for (const port of this.props.openPorts) {
