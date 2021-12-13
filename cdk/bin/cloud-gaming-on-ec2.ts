@@ -11,6 +11,7 @@ const GRID_SW_CERT_URL = "https://nvidia-gaming.s3.amazonaws.com/GridSwCert-Arch
 const STEAM_URL = "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe";
 const PARSEC_URL = "https://builds.parsecgaming.com/package/parsec-windows.exe";
 const NVFBC_URL = "https://lg.io/assets/NvFBCEnable.zip";
+const VB_AUDIO_URL = "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip"
 const SSH_KEY_NAME = process.env.KEY_NAME || "GamingOnEc2";
 const VOLUME_SIZE_GIB = 35;
 const OPEN_PORTS = [3389];
@@ -24,6 +25,7 @@ new G4DNStack(app, "CloudGamingOnG4DN", {
     steamUrl: STEAM_URL,
     parsecUrl: PARSEC_URL,
     nvfbcUrl: NVFBC_URL,
+    vbaudioUrl: VB_AUDIO_URL,
     instanceSize: ec2.InstanceSize.XLARGE,
     sshKeyName: SSH_KEY_NAME,
     volumeSizeGiB: VOLUME_SIZE_GIB,
@@ -44,6 +46,7 @@ new G4ADStack(app, "CloudGamingOnG4AD", {
     steamUrl: STEAM_URL,
     parsecUrl: PARSEC_URL,
     nvfbcUrl: NVFBC_URL,
+    vbaudioUrl: VB_AUDIO_URL,
     instanceSize: ec2.InstanceSize.XLARGE4,
     sshKeyName: SSH_KEY_NAME,
     volumeSizeGiB: VOLUME_SIZE_GIB,

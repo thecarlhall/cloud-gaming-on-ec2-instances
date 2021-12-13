@@ -75,6 +75,7 @@ The command pattern and environment variables are captured in `deploy.sh`. It ru
 **2. Create RDP session**
 
 ```bash
+# workdir ec2gaming
 ./ec2gaming rdp
 ```
 
@@ -92,11 +93,11 @@ Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 
 Install things in Desktop\InstallationFiles.
 
-1. Nvidia drivers
-2. DCV server
-3. DCV driver
-4. update registy
-5. Steam
+1. Nvidia drivers - video drivers for NVDIA T4 GPU.
+2. VB Audio - gets remote audio working better.
+3. Parsec - for seeing and playing games. Buttery smooth.
+4. update registy - from the original blog post. I think this agrees to stuff in the registry to skip prompts.
+5. Steam - to play gamez.
 
 Run `init-local-storage.ps1` to initialize the instance storage on drive `Z:`. This is also installed to run on startup for subsequent starts.
 
@@ -110,10 +111,6 @@ Setup Steam with the following settings
 **5. Enable Nvidia NvFBC encoder**
 
 The GRID cards have an optimization Steam can use which can offload the H.264 video encoding to the GPU. We need to enable this though. Download NvFBCEnable from here and run the following (using a Command Prompt): `NvFBCEnable.exe -enable -noreset`.
-
-**6. Create Logout Command**
-
-Once all is set up, run the following to log out of the Remote Desktop session and not lock the screen (so games can start): `C:\Windows\System32\tscon.exe %sessionname% /dest:console`. I suggest creating a shortcut on the desktop for this. 
 
 
 ## VPN?
@@ -133,8 +130,11 @@ Dism.exe /online /Cleanup-Image /SPSuperseded
 **2. Create an image**
 
 ```bash
-ec2gaming snapshot
-ec2gaming terminate
+# workdir ec2gaming
+./ec2gaming snapshot
+
+# workdir cloud-gaming-on-ec2/cdk
+cdk destroy CloudGamingOnG4DN
 ```
 
 ## Todo

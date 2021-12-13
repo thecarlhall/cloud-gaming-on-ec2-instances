@@ -11,6 +11,7 @@ export interface BaseConfig extends cdk.StackProps {
     steamUrl: string;
     parsecUrl: string;
     nvfbcUrl: string;
+    vbaudioUrl: string;
     openPorts: number[];
     allowInboundCidr: string;
     associateElasticIp: boolean;
