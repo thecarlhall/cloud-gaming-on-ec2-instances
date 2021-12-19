@@ -32,6 +32,8 @@ export class G4DNStack extends BaseEc2Stack {
             `$Bucket = "nvidia-gaming"`,
             `$KeyPrefix = "windows/latest"`,
             '',
+            `msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi`,
+            '',
             `$Objects = Get-S3Object -BucketName $Bucket -KeyPrefix $KeyPrefix -Region us-east-1`,
             `foreach ($Object in $Objects) {
                 $LocalFileName = $Object.Key
