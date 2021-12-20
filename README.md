@@ -4,13 +4,17 @@ This repository contains the full source code that is used in the blog post [Use
 
 ## Modifications in Fork
 
-My changes help run in my setup and controlled with [`ec2gaming`](https://github.com/thecarlhall/ec2gaming).
+My changes help run in my setup and controlled with the [`ec2gaming`](https://github.com/thecarlhall/ec2gaming) scripts.
 
-1. Make EIP configurable.
-2. Move region, account to env vars.
-3. Add Steam to download list.
+1. Make EIP configurable. Off by default.
+2. Move region and account to env vars.
+3. Download Steam on first boot.
 4. Allow default VPC to be used and default to it.
 5. Decrease root volume to 35GB.
+6. Replace Nice DCV with Parsec. Nice wouldn't consistently start correctly.
+7. Install virtual audio device for remote audio.
+8. Install AWS CLI v2 and include config.
+9. Added a script to fix routes when the instance is started in a different subnet than where the images was created.
 
 ## Solution Overview
 

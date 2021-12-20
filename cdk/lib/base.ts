@@ -12,6 +12,7 @@ export interface BaseConfig extends cdk.StackProps {
     parsecUrl: string;
     nvfbcUrl: string;
     vbaudioUrl: string;
+    awsCliUrl: string;
     openPorts: number[];
     allowInboundCidr: string;
     associateElasticIp: boolean;
