@@ -139,10 +139,4 @@ cdk destroy CloudGamingOnG4DN
 
 ## Todo
 
-[ ] Install DCV client on Windows to test USB controller  
-[X] use .cfg to load vars instead of modding .ts file  
-[X] discover local IP when setting up SG using checkip.amazonaws.com  
-[X] Create S3 bucket for transfer and sync. Leave in script for now to treat as immutable infra.  
-[X] Write install.ps1 to ec2 instance to save from clicking individual steps.  
-[X] add 'stopped' instance state to ec2gaming  
-[X] setup instance profile in CDK. copy from ecgaming-start.sh  
+- [x] Create script to look at steam games saved to S3. Ask the user which to sync. Choose 1-n. Also sync the manifests from S3.
